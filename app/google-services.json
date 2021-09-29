@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "256535031887",
+    "project_id": "notesplace-4b08f",
+    "storage_bucket": "notesplace-4b08f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256535031887:android:07822c3926f0d491a33a3a",
+        "android_client_info": {
+          "package_name": "com.MyNotePlaceApp.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256535031887-ua0kl355dddllddob1fo81vogbp3g3aq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.MyNotePlaceApp.app",
+            "certificate_hash": "4ec0e0cc6f737b08c0d1d683d6a4ff21af333687"
+          }
+        },
+        {
+          "client_id": "256535031887-c0gn85pfihhkoekg9pmrb0em14kij7ni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKw8Pp_6sIs1IMGCGHQuvQWHgv-gXHiK4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "256535031887-c0gn85pfihhkoekg9pmrb0em14kij7ni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
