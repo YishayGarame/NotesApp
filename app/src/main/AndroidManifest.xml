@@ -12,10 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyNotePlaceApp">
-        <activity
-            android:name=".DashBoardActivity"
-            android:label="@string/title_activity_dash_board"
-            android:theme="@style/Theme.MyNotePlaceApp.NoActionBar"></activity>
+        <activity android:name=".Bottom_nav_bar"></activity>
+        <!-- <activity -->
+        <!-- android:name=".DashBoardActivity" -->
+        <!-- android:label="@string/title_activity_dash_board" -->
+        <!-- android:theme="@style/Theme.MyNotePlaceApp.NoActionBar"></activity> -->
         <activity android:name=".RegisterUser" />
         <activity android:name=".MainActivity">
             <intent-filter>
