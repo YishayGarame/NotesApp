@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
-public class DialogFragmentList extends DialogFragment {
+public class DialogFragmentNote extends DialogFragment {
 
     private FirebaseDatabase rootNode;
     private DatabaseReference reference;

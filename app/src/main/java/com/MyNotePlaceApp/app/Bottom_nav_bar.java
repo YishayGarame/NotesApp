@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -41,14 +40,18 @@ public class Bottom_nav_bar extends AppCompatActivity {
         BottomNavigationView bottonNav = findViewById(R.id.bottom_navigation_bar);
         bottonNav.setOnNavigationItemReselectedListener(navListener);
 
+
+        //floating button
         floatingAddBtn = findViewById(R.id.floatingAddButton);
         floatingAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragmentList myDialogFragment = new DialogFragmentList();
+                DialogFragmentNote myDialogFragment = new DialogFragmentNote();
                 myDialogFragment.show(getSupportFragmentManager(),"MyFragment");
             }
         });
+
+        //logout button
         logout = (Button)findViewById(R.id.buttonLogout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,13 +60,14 @@ public class Bottom_nav_bar extends AppCompatActivity {
                 startActivity(new Intent(Bottom_nav_bar.this, MainActivity.class));
             }
         });
+
+        //firebase
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();
 
-
+        //greeting
         final TextView greetingTextView = (TextView)findViewById(R.id.greeting);
-
         reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -80,7 +84,7 @@ public class Bottom_nav_bar extends AppCompatActivity {
                 Toast.makeText(Bottom_nav_bar.this, "something wrong happend!", Toast.LENGTH_LONG).show();
             }
         });
-
+        //default List mode fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ListFragment()).commit();
     }
 
