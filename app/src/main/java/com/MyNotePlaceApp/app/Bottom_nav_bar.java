@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,15 +30,25 @@ public class Bottom_nav_bar extends AppCompatActivity {
     private String userID;
 
     private Button logout;
+    private FloatingActionButton floatingAddBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav_bar);
 
+
         BottomNavigationView bottonNav = findViewById(R.id.bottom_navigation_bar);
         bottonNav.setOnNavigationItemReselectedListener(navListener);
 
+        floatingAddBtn = findViewById(R.id.floatingAddButton);
+        floatingAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragmentList myDialogFragment = new DialogFragmentList();
+                myDialogFragment.show(getSupportFragmentManager(),"MyFragment");
+            }
+        });
         logout = (Button)findViewById(R.id.buttonLogout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +80,8 @@ public class Bottom_nav_bar extends AppCompatActivity {
                 Toast.makeText(Bottom_nav_bar.this, "something wrong happend!", Toast.LENGTH_LONG).show();
             }
         });
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ListFragment()).commit();
     }
 
 
