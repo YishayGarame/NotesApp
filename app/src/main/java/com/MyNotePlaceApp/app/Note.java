@@ -1,7 +1,7 @@
 package com.MyNotePlaceApp.app;
 
-import android.util.Log;
-
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Note {
@@ -10,7 +10,7 @@ public class Note {
     private String noteTitle;
     private String noteContent;
     private String noteLocation;
-    private String date;
+    private long date;
 
     public Note(){}
 
@@ -21,11 +21,10 @@ public class Note {
         this.userID = userID;
         this.noteID = null;
         this.noteLocation ="";
-        this.date = new Date().toString();
-        Log.d("Time is","is"+date);
+        this.date = new Date().getTime();
     }
 
-    public Note(String userID, String noteID, String noteTitle, String noteContent, String noteLocation, String date) {
+    public Note(String userID, String noteID, String noteTitle, String noteContent, String noteLocation, long date) {
         this.userID = userID;
         this.noteID = noteID;
         this.noteTitle = noteTitle;
@@ -34,11 +33,11 @@ public class Note {
         this.date = date;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -76,6 +75,13 @@ public class Note {
 
     public String getNoteLocation() {
         return noteLocation;
+    }
+
+    @Override
+    public String toString() {
+        String timeStamp = new SimpleDateFormat("dd.MM.yyyy , HH:mm:ss").format(new Timestamp(getDate()));
+
+        return noteTitle +"  " +timeStamp;
     }
 
     public void setNoteLocation(String noteLocation) {

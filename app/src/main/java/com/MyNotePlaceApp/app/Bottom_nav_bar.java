@@ -46,7 +46,7 @@ public class Bottom_nav_bar extends AppCompatActivity {
         floatingAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragmentNote myDialogFragment = new DialogFragmentNote();
+                AddNoteFragment myDialogFragment = new AddNoteFragment();
                 myDialogFragment.show(getSupportFragmentManager(),"MyFragment");
             }
         });
@@ -102,9 +102,7 @@ public class Bottom_nav_bar extends AppCompatActivity {
                         case R.id.nav_map:
                             selectedFragment = new MapFragment();
                             break;
-//                        case R.id.nav_add:
-//                            selectedFragment = new AddFragment();
-//                            break;
+
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             selectedFragment).commit();

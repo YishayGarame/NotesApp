@@ -1,6 +1,5 @@
 package com.MyNotePlaceApp.app;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,17 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-
-public class DialogFragmentNote extends DialogFragment {
+public class AddNoteFragment extends DialogFragment {
 
     private FirebaseDatabase rootNode;
     private DatabaseReference reference;
@@ -41,7 +34,7 @@ public class DialogFragmentNote extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
          super.onCreateView(inflater, container, savedInstanceState);
 
-         View view = inflater.inflate(R.layout.dialog_fragment, container,false );
+         View view = inflater.inflate(R.layout.fragment_add_note, container,false );
 
         editTextTitleText = (EditText) view.findViewById(R.id.titleText);
         editTextContentText = (EditText) view.findViewById(R.id.contentText);
