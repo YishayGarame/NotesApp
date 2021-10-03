@@ -41,16 +41,12 @@ import java.util.ArrayList;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-
-    Button buttonLcation;
-
     private DatabaseReference reference;
     private FirebaseAuth mAuth;
     FirebaseUser fbUser;
     String userId;
 
     private Marker selectedMarker;
-
 
     ArrayList<Note> noteArrayList;
     SupportMapFragment supportMapFragment;
@@ -64,7 +60,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public View onCreateView( LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map,container,false);
 
-        buttonLcation = view.findViewById(R.id.button_location);
 
         mAuth = FirebaseAuth.getInstance();
         fbUser = mAuth.getCurrentUser();
@@ -84,7 +79,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         return view;
     }
-
 
 
     @Override

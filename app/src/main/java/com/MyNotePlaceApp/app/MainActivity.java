@@ -20,15 +20,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView register;
+    private TextView signUp, forgotPassword;
     private EditText editTextEmail, editTextPassword;
-    private Button signIn;
+    private Button login;
     CheckBox rememberMe;
-    ;
+    String userEmailDefultForgot ;
 
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
@@ -40,17 +39,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //userEmailDefultForgot= "yishaygra@gmail.com";
         setContentView(R.layout.activity_main);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         mAuth = FirebaseAuth.getInstance();
 
-        register = (TextView) findViewById(R.id.register);
-        register.setOnClickListener(this);
+        signUp = (TextView) findViewById(R.id.signUp);
+        signUp.setOnClickListener(this);
 
-        signIn = (Button) findViewById(R.id.login);
-        signIn.setOnClickListener(this);
+        forgotPassword = (TextView) findViewById(R.id.forgotPassword);
+        forgotPassword.setOnClickListener(this);
+
+        login = (Button) findViewById(R.id.login);
+        login.setOnClickListener(this);
+
+
 
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
@@ -84,11 +90,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.register:
+            case R.id.signUp:
                 startActivity(new Intent(this, SignUpActivity.class));
                 break;
             case R.id.login:
                 userLogin();
+                break;
+            case R.id.forgotPassword:
+                userEmailDefultForgot = editTextEmail.getText().toString();
+                if(userEmailDefultForgot.matches("")){
+                    userEmailDefultForgot = "default@gmail.com";
+                }
+                Log.d("email is", "onClick: " + userEmailDefultForgot);
+                        FirebaseAuth.getInstance().sendPasswordResetEmail(userEmailDefultForgot)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(MainActivity.this, "Password sent to "+ userEmailDefultForgot, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
                 break;
         }
     }
