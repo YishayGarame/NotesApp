@@ -21,10 +21,10 @@
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key"/>
 
-        <activity android:name=".Bottom_nav_bar"
+        <activity android:name=".DashboardActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"></activity>
 
-        <activity android:name=".RegisterUser" />
+        <activity android:name=".SignUpActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

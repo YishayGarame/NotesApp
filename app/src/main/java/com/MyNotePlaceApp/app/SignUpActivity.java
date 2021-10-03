@@ -21,7 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class RegisterUser extends AppCompatActivity implements View.OnClickListener {
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView banner,registerUser;
     private EditText editTextFullName, editTextAge, editTextEmail, editTextPassword;
@@ -115,20 +115,20 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                                 public void onComplete(@NonNull Task<Void> task) {
 
                                     if(task.isSuccessful()){
-                                        Toast.makeText(RegisterUser.this, "User has been registered successfully!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(SignUpActivity.this, "User has been registered successfully!", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
-                                        startActivity(new Intent(RegisterUser.this, MainActivity.class));
+                                        startActivity(new Intent(SignUpActivity.this, MainActivity.class));
 
                                     }
                                     else{
-                                        Toast.makeText(RegisterUser.this, "Failed to register! Try again!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(SignUpActivity.this, "Failed to register! Try again!", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
 
                                     }
                                 }
                             });
                         }else {
-                            Toast.makeText(RegisterUser.this, "Failed to register here! Try again!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SignUpActivity.this, "Failed to register here! Try again!", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
                             task.addOnFailureListener(new OnFailureListener() {
                                 @Override

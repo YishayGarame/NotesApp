@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Bottom_nav_bar extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity {
 
     private FirebaseUser user;
     private DatabaseReference reference;
@@ -40,7 +42,6 @@ public class Bottom_nav_bar extends AppCompatActivity {
         BottomNavigationView bottonNav = findViewById(R.id.bottom_navigation_bar);
         bottonNav.setOnNavigationItemReselectedListener(navListener);
 
-
         //floating button
         floatingAddBtn = findViewById(R.id.floatingAddButton);
         floatingAddBtn.setOnClickListener(new View.OnClickListener() {
@@ -56,8 +57,16 @@ public class Bottom_nav_bar extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("here one", "onClick: got here one");
+
+                SharedPreferences preferences = getSharedPreferences("checkBox", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("remember", "false");
+                editor.apply();
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(Bottom_nav_bar.this, MainActivity.class));
+                finish();
+                Log.d("here two", "onClick: got here two");
+                startActivity(new Intent(DashboardActivity.this, MainActivity.class));
             }
         });
 
@@ -81,7 +90,7 @@ public class Bottom_nav_bar extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Bottom_nav_bar.this, "something wrong happend!", Toast.LENGTH_LONG).show();
+                Toast.makeText(DashboardActivity.this, "something wrong happend!", Toast.LENGTH_LONG).show();
             }
         });
         //default List mode fragment
