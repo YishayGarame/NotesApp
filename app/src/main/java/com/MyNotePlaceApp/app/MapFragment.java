@@ -41,6 +41,8 @@ import java.util.ArrayList;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
+
+    //firebase variables
     private DatabaseReference reference;
     private FirebaseAuth mAuth;
     FirebaseUser fbUser;
@@ -48,8 +50,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private Marker selectedMarker;
 
+
+    //arraylist
     ArrayList<Note> noteArrayList;
-    SupportMapFragment supportMapFragment;
     FusedLocationProviderClient fusedLocationProviderClient;
 
     LatLng latLng;
@@ -60,7 +63,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public View onCreateView( LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map,container,false);
 
-
+        //init fire base variables
         mAuth = FirebaseAuth.getInstance();
         fbUser = mAuth.getCurrentUser();
         userId = fbUser.getUid();
@@ -72,14 +75,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         //init fusedLocationProviderClient
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
 
-
         SupportMapFragment mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map));
         mapFragment.getMapAsync(this);
 
-
         return view;
     }
-
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -99,15 +99,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         addMarkToMap(note);
                     }
                 }
-
             }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
-
         });
     }
 
@@ -119,14 +115,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(@NonNull Marker marker) {
-                Log.d("TAG", "onMarkerClick: marker clicked ");
                 DialogFragment editFragment = new EditNoteFragment(note);
                 editFragment.show(getParentFragmentManager(),"Edit Note");
                 return false;
             }
         });
     }
-
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {

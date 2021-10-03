@@ -34,9 +34,9 @@ public class EditNoteFragment extends DialogFragment {
 
     private Note note;
 
-    public EditNoteFragment(Note note) {
-        this.note = note;
-    }
+    //for setting the location;
+    String latitude,longtitude;
+
 
     @Nullable
     @Override
@@ -44,25 +44,31 @@ public class EditNoteFragment extends DialogFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_edit_note, container, false);
 
+
+        //init title and body
         editTextTitleText = view.findViewById(R.id.editTitleText);
         editTextContentText = view.findViewById(R.id.editContentText);
 
-        editTextTitleText.setText(note.getNoteTitle());
-        editTextContentText.setText(note.getNoteContent());
-
-
-        editTextLongtitude = (EditText) view.findViewById(R.id.editLongtitudeText);
-        editTextLatitude = (EditText) view.findViewById(R.id.editLatitudeText);
-        editTextLatitude.setText(""+note.getNoteLatitudeLocation());
-        editTextLongtitude.setText(""+note.getNoteLongtitudeLocation());
-
+        //init cancel save button
         cancelNote = view.findViewById(R.id.editCancelNoteButton);
         saveNote = view.findViewById(R.id.editSaveNoteButton);
+
+        //init location variables
+        editTextLongtitude = (EditText) view.findViewById(R.id.editLongtitudeText);
+        editTextLatitude = (EditText) view.findViewById(R.id.editLatitudeText);
+
+        //show variables: title body and locaiton
+        editTextTitleText.setText(note.getNoteTitle());
+        editTextContentText.setText(note.getNoteContent());
+        editTextLongtitude.setText(""+note.getNoteLongtitudeLocation());
+        editTextLatitude.setText(""+note.getNoteLatitudeLocation());
+
+        checkLocationValidation();
 
         cancelNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Note Canceled :(",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Edit note canceled !",Toast.LENGTH_LONG).show();
                 getDialog().dismiss();
             }
         });
@@ -72,11 +78,12 @@ public class EditNoteFragment extends DialogFragment {
                 reference = FirebaseDatabase.getInstance().getReference("Notes").child(note.getUserID()).child(note.getNoteID());
                 String title = editTextTitleText.getText().toString();
                 String content = editTextContentText.getText().toString();
-                String longtitude = editTextLongtitude.getText().toString();
-                String latitude = editTextLatitude.getText().toString();
 
+                //edit note to be changed in database
                 Note editedNote = new Note(title,content,note.getUserID());
                 editedNote.setNoteID(note.getNoteID());
+
+                //after validation
                 editedNote.setNoteLongtitudeLocation(Double.parseDouble(longtitude));
                 editedNote.setNoteLatitudeLocation(Double.parseDouble(latitude));
 
@@ -90,6 +97,30 @@ public class EditNoteFragment extends DialogFragment {
         });
 
         return view;
+    }
+    public EditNoteFragment(Note note) {
+        this.note = note;
+    }
+
+    private void checkLocationValidation(){
+        double lat,lang;
+
+        try {
+            latitude = editTextLatitude.getText().toString().trim();
+            longtitude = editTextLongtitude.getText().toString().trim();
+            lat = Double.parseDouble(latitude);
+            lang = Double.parseDouble(longtitude);
+            Log.d("TAG", "ok locaiton: ");
+
+        }catch (Exception e){
+            latitude = "32.164456";
+            longtitude = "34.856073";
+            Log.d("TAG", "wrong location:::::::::::::::::::::::: ");
+        }
+        if(latitude.matches("") || longtitude.matches("")){
+            latitude = "32.164456";
+            longtitude = "34.856073";
+        }
     }
 
 

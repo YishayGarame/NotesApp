@@ -38,9 +38,14 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav_bar);
 
+        //init firebase variables
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("Users");
+        userID = user.getUid();
 
-        BottomNavigationView bottonNav = findViewById(R.id.bottom_navigation_bar);
-        bottonNav.setOnNavigationItemReselectedListener(navListener);
+        //init bootom navbar
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_bar);
+        bottomNav.setOnNavigationItemReselectedListener(navListener);
 
         //floating button
         floatingAddBtn = findViewById(R.id.floatingAddButton);
@@ -52,30 +57,23 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        //logout button
+        //logout button and SharedPreferences
         logout = (Button)findViewById(R.id.buttonLogout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("here one", "onClick: got here one");
-
                 SharedPreferences preferences = getSharedPreferences("checkBox", MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("remember", "false");
                 editor.apply();
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                Log.d("here two", "onClick: got here two");
                 startActivity(new Intent(DashboardActivity.this, MainActivity.class));
             }
         });
 
-        //firebase
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("Users");
-        userID = user.getUid();
 
-        //greeting
+        //greeting user
         final TextView greetingTextView = (TextView)findViewById(R.id.greeting);
         reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -87,20 +85,19 @@ public class DashboardActivity extends AppCompatActivity {
                     greetingTextView.setText("Welcome, "+fullName+ "!");
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DashboardActivity.this, "something wrong happend!", Toast.LENGTH_LONG).show();
+                Toast.makeText(DashboardActivity.this, "something wrong happened!", Toast.LENGTH_LONG).show();
             }
         });
-        //default List mode fragment
+
+        //default List mode fragment to show
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ListFragment()).commit();
     }
 
 
     private BottomNavigationView.OnNavigationItemReselectedListener navListener =
             new BottomNavigationView.OnNavigationItemReselectedListener(){
-
                 @Override
                 public void onNavigationItemReselected(@NonNull MenuItem item) {
                     Fragment selectedFragment =null;

@@ -23,12 +23,16 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    //assign variables
     private TextView signUp, forgotPassword;
     private EditText editTextEmail, editTextPassword;
     private Button login;
     CheckBox rememberMe;
+
+    //defaule email to use in forget password
     String userEmailDefultForgot ;
 
+    //firebase variables
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
 
@@ -40,36 +44,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mAuth = FirebaseAuth.getInstance();
+
         //userEmailDefultForgot= "yishaygra@gmail.com";
         setContentView(R.layout.activity_main);
 
+        //progressBar
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        mAuth = FirebaseAuth.getInstance();
 
+        //init variables
         signUp = (TextView) findViewById(R.id.signUp);
-        signUp.setOnClickListener(this);
-
         forgotPassword = (TextView) findViewById(R.id.forgotPassword);
-        forgotPassword.setOnClickListener(this);
-
         login = (Button) findViewById(R.id.login);
-        login.setOnClickListener(this);
-
-
 
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
 
-        //remember me
         rememberMe = findViewById(R.id.checkBoxbutton);
+
+        //click listeners
+        forgotPassword.setOnClickListener(this);
+        signUp.setOnClickListener(this);
+        login.setOnClickListener(this);
+
+        //remember me ,SharedPreferences and
         preferences = getSharedPreferences("checkBox", MODE_PRIVATE);
         checkbox = preferences.getString("remember", "false");
         if (checkbox.equals("true")) {
+
+            //saved user credentials
             String savedEmail = preferences.getString("userEmail", "noemail");
             String savesPassword = preferences.getString("userPassword", "nopass");
-//            progressBar.setVisibility(View.VISIBLE);
 
+            //sign in with firebase
             mAuth.signInWithEmailAndPassword(savedEmail, savesPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -86,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -97,11 +104,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 userLogin();
                 break;
             case R.id.forgotPassword:
+
+                //get user email
                 userEmailDefultForgot = editTextEmail.getText().toString();
                 if(userEmailDefultForgot.matches("")){
                     userEmailDefultForgot = "default@gmail.com";
                 }
-                Log.d("email is", "onClick: " + userEmailDefultForgot);
                         FirebaseAuth.getInstance().sendPasswordResetEmail(userEmailDefultForgot)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -119,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
+
+        //validation
         if (email.isEmpty()) {
             editTextEmail.setError("Email is required");
             editTextEmail.requestFocus();
@@ -165,7 +175,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-
 
     }
 }

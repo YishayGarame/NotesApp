@@ -11,7 +11,6 @@ public class NoteComparator implements Comparator<Note> {
             return 1;
         } else {
             return -1;
-
         }
     }
 }

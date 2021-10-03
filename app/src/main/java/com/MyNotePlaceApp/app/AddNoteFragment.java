@@ -33,7 +33,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AddNoteFragment extends DialogFragment {
 
-    private FirebaseDatabase rootNode;
     private DatabaseReference reference;
     private FirebaseAuth mAuth;
 
@@ -42,11 +41,9 @@ public class AddNoteFragment extends DialogFragment {
 
     private EditText editTextTitleText, editTextContentText, editTextLongtitude, editTextLatitude;
 
-    SupportMapFragment supportMapFragment;
-    FusedLocationProviderClient client;
-    GoogleMap map;
 
-
+    //for setting the location;
+    String latitude,longtitude;
 
     @Nullable
     @Override
@@ -57,14 +54,22 @@ public class AddNoteFragment extends DialogFragment {
          View view = inflater.inflate(R.layout.fragment_add_note, container,false );
 
 
+
+         //initialized variables
         editTextTitleText = (EditText) view.findViewById(R.id.titleText);
         editTextContentText = (EditText) view.findViewById(R.id.contentText);
+
         editTextLongtitude = (EditText) view.findViewById(R.id.longtitudeText);
         editTextLatitude = (EditText) view.findViewById(R.id.latitudeText);
 
         cancelNote = view.findViewById(R.id.cancelNoteButton);
         saveNote = view.findViewById(R.id.saveNoteButton);
 
+
+
+
+
+        //cancel button clicked
          cancelNote.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
@@ -72,37 +77,38 @@ public class AddNoteFragment extends DialogFragment {
                  getDialog().dismiss();
              }
          });
+
+         //save button clicked
          saveNote.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
                  mAuth = FirebaseAuth.getInstance();
                  reference = FirebaseDatabase.getInstance().getReference("Notes");
-                 rootNode = FirebaseDatabase.getInstance();
-                 Log.d("MAuth","user id is :"+ mAuth.getUid());
-
                  saveNote();
                  Toast.makeText(getActivity(), "Note Saved :)",Toast.LENGTH_LONG).show();
                  getDialog().dismiss();
              }
          });
-
         return view;
     }
 
 
-
-
+    //save note to firebase
     private void saveNote() {
         String titleNote, contentNote, userID;
-        String latitude,longtitude;
+
 
         titleNote = editTextTitleText.getText().toString().trim();
         contentNote = editTextContentText.getText().toString().trim();
-        latitude = editTextLatitude.getText().toString().trim();
-        longtitude = editTextLongtitude.getText().toString().trim();
 
+
+        //validate location
+        checkLocationValidation();
+
+        //user id
         userID = mAuth.getUid();
 
+        //note to be added to database
         Note note = new Note(titleNote,contentNote,userID);
         note.setNoteLatitudeLocation(Double.parseDouble(latitude));
         note.setNoteLongtitudeLocation(Double.parseDouble(longtitude));
@@ -110,7 +116,24 @@ public class AddNoteFragment extends DialogFragment {
         String noteId = reference.child(mAuth.getCurrentUser().getUid()).push().getKey();
         note.setNoteID(noteId);
         reference.child(mAuth.getCurrentUser().getUid()).child(noteId).setValue(note);
-
     }
 
+    private void checkLocationValidation(){
+        double lat,lang;
+
+        latitude = editTextLatitude.getText().toString().trim();
+        longtitude = editTextLongtitude.getText().toString().trim();
+        try {
+            lat = Double.parseDouble(latitude);
+            lang = Double.parseDouble(longtitude);
+        }catch (Exception e){
+            latitude = "32.164456";
+            longtitude = "34.856073";
+            Log.d("TAG", "wrong location: ");
+        }
+        if(latitude.matches("") || longtitude.matches("")){
+            latitude = "32.164456";
+            longtitude = "34.856073";
+        }
+    }
 }

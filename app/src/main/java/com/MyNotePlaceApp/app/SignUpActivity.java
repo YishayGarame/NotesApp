@@ -36,11 +36,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         mAuth = FirebaseAuth.getInstance();
 
+        //init variables
         banner = (TextView) findViewById(R.id.banner);
-        banner.setOnClickListener(this);
-
         registerUser = (Button) findViewById(R.id.registerUser);
-        registerUser.setOnClickListener(this);
 
         editTextFullName = (EditText) findViewById(R.id.fullName);
         editTextAge = (EditText) findViewById(R.id.age);
@@ -48,6 +46,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         editTextPassword = (EditText) findViewById(R.id.password);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+
+        //click listeners
+        registerUser.setOnClickListener(this);
+        banner.setOnClickListener(this);
+
     }
 
     @Override
@@ -123,7 +127,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                     else{
                                         Toast.makeText(SignUpActivity.this, "Failed to register! Try again!", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
-
                                     }
                                 }
                             });
@@ -133,7 +136,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             task.addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d("bla", "onFailure: "+e.getMessage());
                                 }
                             });
                         }

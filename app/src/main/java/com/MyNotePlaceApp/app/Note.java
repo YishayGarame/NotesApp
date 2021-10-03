@@ -24,8 +24,8 @@ public class Note {
         this.noteContent = noteContent;
         this.userID = userID;
         this.noteID = null;
-        this.noteLatitudeLocation = 0;
-        this.noteLongtitudeLocation = 0;
+        this.noteLatitudeLocation = 0.0;
+        this.noteLongtitudeLocation = 0.0;
         this.date = new Date().getTime();
     }
 

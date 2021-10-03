@@ -33,31 +33,36 @@ import java.util.HashMap;
 
 public class ListFragment extends Fragment {
 
+
+    //firebase variables
     private DatabaseReference reference;
     private FirebaseAuth mAuth;
     FirebaseUser fbUser;
     String userId;
 
+
+    //array list and list adapter
     ArrayList<Note> noteArrayList;
     ListView listView;
     ArrayAdapter<Note> adapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-
         listView = view.findViewById(R.id.listView);
 
         adapter = new ArrayAdapter<>(getContext(),R.layout.list_item);
 
+
+        //init firebase variables
         mAuth = FirebaseAuth.getInstance();
         fbUser = mAuth.getCurrentUser();
         userId = fbUser.getUid();
         reference = FirebaseDatabase.getInstance().getReference("Notes").child(userId);
 
-
+        //load notes to arraylist
         loadNotes();
 
        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,25 +80,20 @@ public class ListFragment extends Fragment {
            }
        });
 
-       //delete note when long press
+       //delete selected note when long press
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Note noteSelected = noteArrayList.get(position);
                 deleteNote(noteSelected);
-
                 return true;
             }
         });
 
-
         return view;
-
-
     }
 
     private void loadNotes() {
-
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -105,25 +105,21 @@ public class ListFragment extends Fragment {
                     }
                 }
                 adapter.clear();
-                //sort
+                //sort using note comparator
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     noteArrayList.sort(new NoteComparator());
                 }
-
+                //add arraylist to the list adapter
                 adapter.addAll(noteArrayList);
                 listView.setAdapter(adapter);
-
             }
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
-
         });
     }
 
+    //delete note alert dialog
     private  void deleteNote(Note noteToDelete){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
@@ -137,9 +133,7 @@ public class ListFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
