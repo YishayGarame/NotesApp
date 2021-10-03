@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-    <LinearLayout
-        android:id="@+id/editLinearLayContainer"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="300dp"
         android:layout_height="550dp"
         android:orientation="vertical"
         >
+
+
 
         <EditText
             android:id="@+id/editTitleText"
@@ -26,12 +28,28 @@
         <EditText
             android:id="@+id/editContentText"
             android:layout_width="match_parent"
-            android:layout_height="420dp"
-            android:layout_gravity="bottom"
+            android:layout_height="360dp"
+            android:layout_gravity="top"
             android:textAlignment="center"
             android:gravity="top"
             android:textSize="40dp"
             android:hint="Add here your NOTE content"/>
+
+        <EditText
+            android:id="@+id/editLatitudeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:hint="Enter Latitude :"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/editLongtitudeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:hint="Enter longtitude :"
+            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,22 +57,27 @@
             android:layout_gravity="bottom">
             <Button
                 android:id="@+id/editSaveNoteButton"
+                android:gravity="center"
                 android:layout_width="150dp"
                 android:layout_height="70dp"
                 android:text="Save Note"
                 android:layout_gravity="left"
                 android:textColor="@color/white"
+                android:textAlignment="center"
                 />
 
             <Button
                 android:id="@+id/editCancelNoteButton"
+                android:gravity="center"
                 android:layout_width="150dp"
                 android:layout_height="70dp"
                 android:layout_gravity="right"
                 android:backgroundTint="#CF1818"
                 android:text="Cancel"
                 android:textColor="@color/white"
+                android:textAlignment="center"
                 />
         </LinearLayout>
+
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

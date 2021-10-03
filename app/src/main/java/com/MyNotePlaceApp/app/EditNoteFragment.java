@@ -30,7 +30,7 @@ public class EditNoteFragment extends DialogFragment {
     private Button cancelNote;
     private Button saveNote;
 
-    private EditText editTextTitleText, editTextContentText;
+    private EditText editTextTitleText, editTextContentText,editTextLongtitude, editTextLatitude;
 
     private Note note;
 
@@ -49,6 +49,13 @@ public class EditNoteFragment extends DialogFragment {
 
         editTextTitleText.setText(note.getNoteTitle());
         editTextContentText.setText(note.getNoteContent());
+
+
+        editTextLongtitude = (EditText) view.findViewById(R.id.editLongtitudeText);
+        editTextLatitude = (EditText) view.findViewById(R.id.editLatitudeText);
+        editTextLatitude.setText(""+note.getNoteLatitudeLocation());
+        editTextLongtitude.setText(""+note.getNoteLongtitudeLocation());
+
         cancelNote = view.findViewById(R.id.editCancelNoteButton);
         saveNote = view.findViewById(R.id.editSaveNoteButton);
 
@@ -65,9 +72,13 @@ public class EditNoteFragment extends DialogFragment {
                 reference = FirebaseDatabase.getInstance().getReference("Notes").child(note.getUserID()).child(note.getNoteID());
                 String title = editTextTitleText.getText().toString();
                 String content = editTextContentText.getText().toString();
+                String longtitude = editTextLongtitude.getText().toString();
+                String latitude = editTextLatitude.getText().toString();
 
                 Note editedNote = new Note(title,content,note.getUserID());
                 editedNote.setNoteID(note.getNoteID());
+                editedNote.setNoteLongtitudeLocation(Double.parseDouble(longtitude));
+                editedNote.setNoteLatitudeLocation(Double.parseDouble(latitude));
 
                 note = editedNote;
 

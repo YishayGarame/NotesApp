@@ -1,5 +1,7 @@
 package com.MyNotePlaceApp.app;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,7 +11,9 @@ public class Note {
     private String noteID;
     private String noteTitle;
     private String noteContent;
-    private String noteLocation;
+    private double noteLatitudeLocation;
+    private double noteLongtitudeLocation;
+
     private long date;
 
     public Note(){}
@@ -20,18 +24,11 @@ public class Note {
         this.noteContent = noteContent;
         this.userID = userID;
         this.noteID = null;
-        this.noteLocation ="";
+        this.noteLatitudeLocation = 0;
+        this.noteLongtitudeLocation = 0;
         this.date = new Date().getTime();
     }
 
-    public Note(String userID, String noteID, String noteTitle, String noteContent, String noteLocation, long date) {
-        this.userID = userID;
-        this.noteID = noteID;
-        this.noteTitle = noteTitle;
-        this.noteContent = noteContent;
-        this.noteLocation = noteLocation;
-        this.date = date;
-    }
 
     public long getDate() {
         return date;
@@ -73,8 +70,20 @@ public class Note {
         this.noteContent = noteContent;
     }
 
-    public String getNoteLocation() {
-        return noteLocation;
+    public double getNoteLatitudeLocation() {
+        return noteLatitudeLocation;
+    }
+
+    public void setNoteLatitudeLocation(double noteLatitudeLocation) {
+        this.noteLatitudeLocation = noteLatitudeLocation;
+    }
+
+    public double getNoteLongtitudeLocation() {
+        return noteLongtitudeLocation;
+    }
+
+    public void setNoteLongtitudeLocation(double noteLongtitudeLocation) {
+        this.noteLongtitudeLocation = noteLongtitudeLocation;
     }
 
     @Override
@@ -84,7 +93,4 @@ public class Note {
         return noteTitle +"  " +timeStamp;
     }
 
-    public void setNoteLocation(String noteLocation) {
-        this.noteLocation = noteLocation;
-    }
 }
